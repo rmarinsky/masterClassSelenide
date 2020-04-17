@@ -1,6 +1,5 @@
 package com.gsmserver;
 
-import com.codeborne.selenide.AssertionMode;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -11,10 +10,9 @@ public abstract class BaseTest {
     static {
         Configuration.baseUrl = "https://gsmserver.com";
         Configuration.browser = WebDriverRunner.CHROME;
-        Configuration.assertionMode = AssertionMode.STRICT;
         Configuration.fastSetValue = true;
         Configuration.timeout = 4000;
-        Configuration.pollingInterval = 50;
+        Configuration.pollingInterval = 100;
         Configuration.savePageSource = false;
         Configuration.screenshots = false;
 

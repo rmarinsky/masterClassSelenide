@@ -1,8 +1,7 @@
 package com.gsmserver;
 
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.SelenideElement;
 import com.gsmserver.pages.HomePage;
+import com.gsmserver.pages.ProductComponent;
 import com.gsmserver.pages.SearchResultPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +25,15 @@ public class SearchTests extends BaseTest {
         element("[name='searchword']").val(productName).pressEnter();
         element(".search-title-highlight").shouldHave(text(productName+"d"));
 
-        findProductById(productId).$(".product-info_title").shouldHave(text(productName));
-        findProductById(productId).$("[data-action-click='site.cart.add']").click();
-        findProductById(productId).$(".in-cart").click();
+        ProductComponent productComponent = new ProductComponent();
+        productComponent.findProductById(productId).$(".product-info_title").shouldHave(text(productName));
+        productComponent.findProductById(productId).$("[data-action-click='site.cart.add']").click();
+        productComponent.findProductById(productId).$(".in-cart").click();
 
         element("#cart h1").shouldHave(text("Cart"));
 
         elements("#cart tr[data-product-id]").shouldHaveSize(1);
-        findProductById(productId).$(".product-title").shouldHave(text(productName));
+        productComponent.findProductById(productId).$(".product-title").shouldHave(text(productName));
     }
 
     @Test
@@ -41,13 +41,19 @@ public class SearchTests extends BaseTest {
         var productName = "Z3X Easy-Jtag Plus Full Set";
 
         new HomePage().searchFor(productName);
-        var actualSearchResultTitle = new SearchResultPage().getSearchResultTitle();
 
+        var searchResultPage = new SearchResultPage();
+
+        var actualSearchResultTitle = searchResultPage.getSearchResultTitle();
         Assertions.assertEquals(productName, actualSearchResultTitle);
+
+        var actualSizeOfSearchResult = searchResultPage.getSearchResultListSize();
+        Assertions.assertEquals(actualSizeOfSearchResult, 3);
+
+        var actualFirstProductTitle = searchResultPage.getFirstProductInfoTitle();
+        Assertions.assertEquals(productName, actualFirstProductTitle);
     }
 
-    private SelenideElement findProductById(String productId) {
-        return element(Selectors.by("data-product-id", productId));
-    }
+
 
 }
