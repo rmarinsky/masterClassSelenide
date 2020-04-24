@@ -1,6 +1,6 @@
 package com.gsmserver.pages;
 
-import io.qameta.allure.Step;
+import com.gsmserver.product.ProductComponent;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -8,9 +8,14 @@ import static org.openqa.selenium.By.cssSelector;
 
 public class HomePage {
 
-    @Step
-    public void searchFor(String searchQuery) {
-        $("[name='searchword']").val(searchQuery).pressEnter();
+    public SearchComponent searchComponent;
+
+    public HomePage() {
+        searchComponent = new SearchComponent();
+    }
+
+    public ProductComponent targetProduct(String productId) {
+        return new ProductComponent(productId);
     }
 
     public static class DropdownAccount {
@@ -25,9 +30,9 @@ public class HomePage {
             return this;
         }
 
-        public LoginPopup openLoginPopup() {
+        public void openLoginPopup() {
             $(loginDropDownItem).click();
-            return new LoginPopup();
+            new LoginPopup();
         }
 
         public void openRegistrationPopup() {

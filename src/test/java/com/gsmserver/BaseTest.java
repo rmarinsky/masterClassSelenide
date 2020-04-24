@@ -10,7 +10,6 @@ public abstract class BaseTest {
     static {
         Configuration.baseUrl = "https://gsmserver.com";
         Configuration.browser = WebDriverRunner.CHROME;
-        Configuration.fastSetValue = true;
         Configuration.timeout = 4000;
         Configuration.pollingInterval = 100;
         Configuration.savePageSource = false;
